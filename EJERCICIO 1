@@ -1,6 +1,6 @@
 programa ejercicio1practica4 
 procesos 
-  proceso mientrasFlores
+  proceso servidorFlores
   comenzar
     mientras HayFlorEnLaEsquina
       tomarFlor
@@ -16,11 +16,6 @@ procesos
       mover 
       depositarFlor 
   fin 
-  proceso dejarFLores (E flores: numero) 
-  comenzar 
-    repetir flores 
-      depositarFlor 
-  fin 
   proceso quienEs (E id: numero; ES flores: numero) 
   comenzar 
     si (id = 1) 
@@ -32,7 +27,7 @@ procesos
         si (id = 3) 
           RecibirMensaje (flores, robot3) 
   fin 
-  proceso recibirAv (E id: numero; ES av: numero; ES ca: numero) 
+  proceso recibirAvCa (E id: numero; ES av: numero; ES ca: numero) 
   comenzar 
     si (id = 1) 
       RecibirMensaje (av, robot1) 
@@ -67,7 +62,7 @@ robots
   variables 
     flores, id, contador, av, ca: numero 
   comenzar 
-    mientrasFlores
+    servidorFlores
     contador:=0  
     mientras (contador < 3) 
       RecibirMensaje (id, *) 
@@ -85,7 +80,7 @@ robots
     flores, id: numero 
     ok: boolean 
   comenzar 
-    mientras (PosCa <> 100) 
+    mientras (PosCa < 100) 
       Random (flores, 1,4) 
       EnviarMensaje (1, servidor) 
       EnviarMensaje (flores,servidor) 
@@ -93,7 +88,7 @@ robots
       EnviarMensaje (PosCa+1, servidor) 
       RecibirMensaje (ok, servidor) 
       Pos (PosAv, PosCa+1) 
-      juntarFlores 
+      juntarFlores (flores)
       Pos (PosAv, PosCa) 
       dejandoFlores (flores)
     EnviarMensaje (0, servidor)
@@ -103,7 +98,7 @@ robots
     flores, id: numero 
     ok: boolean 
   comenzar 
-    mientras (PosCa <> 100) 
+    mientras (PosCa < 100) 
       Random (flores, 1,4) 
       EnviarMensaje (2, servidor) 
       EnviarMensaje (flores, servidor) 
@@ -111,7 +106,7 @@ robots
       EnviarMensaje (PosCa+1, servidor)
       RecibirMensaje (ok, servidor) 
       Pos (PosAv, PosCa+1) 
-      juntarFlores 
+      juntarFlores (flores)
       Pos (PosAv, PosCa)
       dejandoFlores (flores) 
     EnviarMensaje (0, servidor) 
@@ -121,7 +116,7 @@ robots
     flores, id: numero 
     ok: boolean 
   comenzar  
-    mientras (PosCa <> 100) 
+    mientras (PosCa < 100) 
       Random (flores, 1,4) 
       EnviarMensaje (3, servidor) 
       EnviarMensaje (flores, servidor) 
@@ -129,7 +124,7 @@ robots
       EnviarMensaje (PosCa+1, servidor) 
       RecibirMensaje (ok, servidor) 
       Pos (PosAv, PosCa+1) 
-      juntarFlores 
+      juntarFlores (flores)
       Pos (PosAv, PosCa)
       dejandoFlores (flores) 
     EnviarMensaje (0, servidor) 
