@@ -145,6 +145,10 @@ comenzar
   AsignarArea (servidor, area2) 
   AsignarArea (servidor, area3) 
   AsignarArea (robot1, area1) 
+  AsignarArea (robot2, area2)
+  AsignarArea (robot3, area3)
   Iniciar (servidor, 100,100) 
   Iniciar (robot1, 1,1) 
+  Iniciar (robot2,2,1)
+  Iniciar (robot3,3,1)
 fin 
