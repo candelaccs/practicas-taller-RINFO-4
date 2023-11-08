@@ -2,7 +2,7 @@ programa ejercicio2
 procesos
   proceso juntarPapeles (ES papeles: numero; E cantidad: numero)
   comenzar
-    mientras (HayPapelEnLaEsquina & papeles < cantidad)
+    mientras((HayPapelEnLaEsquina) & (papeles < cantidad))
       tomarPapel
       papeles:= papeles+1
   fin
@@ -13,13 +13,13 @@ procesos
   fin
   proceso recorrer (ES papeles: numero; E av: numero; E ca: numero)
   comenzar
-    juntarPapeles (papeles,5)
+    juntarPapeles(papeles,5)
     si (papeles = 5)
-      BloquearEsquina (50,50)
-      Pos (50,50)
-      dejarPapeles (papeles)
-      Pos (av,ca)
-      LiberarEsquina (50,50)
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      dejarPapeles(papeles)
+      Pos(av,ca)
+      LiberarEsquina(50,50)
       papeles:=0
     sino
       mover
@@ -37,9 +37,10 @@ robots
   comenzar
     papeles:= 0
     av:= PosAv
-    ca:= PosCa
     mientras (PosCa < 99)
-      recorrer (papeles,av,ca)
+
+      ca:= PosCa
+      recorrer(papeles,av,ca)
   fin
   robot consumidor
   variables
@@ -48,18 +49,19 @@ robots
     av:= PosAv
     ca:= PosCa
     mientras (contador <> 8)
-      Random (cantidad, 2,5)
-      BloquearEsquina (50,50)
-      Pos (50,50)
-      juntarPapeles (papeles, cantidad)
+      papeles:= 0
+      Random(cantidad, 2,5)
+      BloquearEsquina(50,50)
+      Pos(50,50)
+      juntarPapeles(papeles, cantidad)
       si (papeles = cantidad)
         Pos (av,ca)
         LiberarEsquina(50,50)
-        dejarPapeles (papeles)
+        dejarPapeles(papeles)
         contador:=0
       sino 
-        Pos (av,ca)
-        LiberarEsquina (50,50)
+        Pos(av,ca)
+        LiberarEsquina(50,50)
         contador:= contador+1
   fin
 variables
