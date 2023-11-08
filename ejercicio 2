@@ -1,0 +1,71 @@
+programa ejercicio2
+procesos
+  proceso juntarPapeles (ES papeles: numero; cantidad: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina & papeles < cantidad)
+      tomarPapel
+      papeles:= papeles+1
+  fin
+  proceso dejarPapeles (ES papeles: numero)
+  comenzar
+    repetir papeles {o repetir 5?}
+      depositarPapel
+  fin
+  proceso recorrer (ES papeles: numero; E av: numero; E ca: numero)
+  comenzar
+    juntarPapeles (papeles,5)
+    si (papeles = 5)
+      BloquearEsquina (50,50)
+      Pos (50,50)
+      dejarPapeles (papeles)
+      Pos (av,ca)
+      LiberarEsquina (50,50)
+      papeles:=0
+    sino
+      mover
+  fin
+areas
+  p1: AreaP (5,1,5,100)
+  p2: AreaP (10,1,10,100)
+  c1: AreaP (11,1,11,1)
+  c2: AreaP (12,1,12,1)
+  d: AreaC (50,50,50,50)
+robots
+  robot productor
+  variables
+    papeles, av, ca: numero
+  comenzar
+    papeles:= 0
+    av:= PosAv
+    ca:= PosCa
+    mientras (PosCa < 99)
+      recorrer (papeles,av,ca)
+  fin
+  robot consumidor
+    papeles, cantidad, contador, av, ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    mientras (contador <> 8)
+      Random (cantidad, 2,5)
+      BloquearEsquina (50,50)
+      Pos (50,50)
+      juntarPapeles (papeles, cantidad)
+      si (papeles = cantidad)
+        Pos (av,ca)
+        LiberarEsquina(50,50)
+        dejarPapeles (papeles)
+        contador:=0
+      sino 
+        Pos (av,ca)
+        LiberarEsquina (50,50)
+        contador:= contador+1
+  fin
+variables
+  robotP1: productor
+  robotP2: productor
+  robotC1: consumidor
+  robotC2: consumidor
+comenzar
+  AsignarArea (robotP1,p1)
+  AsignarArea (robotP2;
