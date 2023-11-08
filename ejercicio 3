@@ -52,11 +52,13 @@ robots
   comenzar 
     RecibirMensaje (id, cor)
     repetir 19
-      juntarCinco 
-      EnviarMensaje (id, r1) 
-      EnviarMensaje (id, r3) 
-      RecibirMensaje (id, r1) 
-      RecibirMensaje (id, r3)
+      juntarCinco
+      si( id = 2)
+        si(~Tr1) {para el b}
+         EnviarMensaje (id, r1)      
+        EnviarMensaje (id, r3) 
+        RecibirMensaje (id, r1) 
+        RecibirMensaje (id, r3)
     juntarCuatro
   fin 
   robot r3
@@ -88,7 +90,8 @@ comenzar
   Iniciar (r3,3,1)
 fin
 
-
+ 
+  
 
 
 b)
@@ -133,9 +136,9 @@ robots
     RecibirMensaje (id, cor)
     mientras (PosCa < 100) 
       Random (n, 1,5) 
-      juntarN (n) 
-      EnviarMensaje (id, r2)  
-      EnviarMensaje (id, r3)  
+      juntarN (n,termine) 
+      EnviarMensaje (termine, r2)  
+      EnviarMensaje (termine, r3) {cambiar a V o F si termine } 
       RecibirMensaje (id, r3) 
       RecibirMensaje (id, r2)  
   fin  
