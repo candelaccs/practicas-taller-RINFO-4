@@ -64,7 +64,7 @@ procesos
           RecibirMensaje (ca, jefe)
           vaciarBolsa
         sino
-          si (tarea = 4)
+          si (tarea = 4) {esto no va}
             seguir:= F
   fin
 areas
@@ -76,12 +76,12 @@ robots
     id, tarea: numero
   comenzar
     repetir 10
-      Random (tarea, 1,4)
+      Random (tarea, 1,4) {1,3}
       Random (id, 1,2)
       Random (av,2,100)
       Random (ca, 2,100)
       EnviarMensajes (id, tarea, av, ca)
-    EnviarFalsos
+    EnviarCuatro 
   fin
   robot trabajador
   variables
