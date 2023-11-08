@@ -1,7 +1,3 @@
-{ modularizar, solucionar problema de que se cae de cuadra}
-
-
-
 
 programa ejercicio3 
 procesos 
@@ -16,6 +12,12 @@ procesos
       juntarPapeles 
       mover 
   fin 
+  proceso juntarCuatro
+  comenzar
+    repetir 4
+      juntarPapeles
+      mover
+  fin
 areas 
   area1: AreaP (1,1,1,100) 
   area2: AreaP (2,1,2,100) 
@@ -25,34 +27,37 @@ robots
   variables 
     ok: boolean 
   comenzar 
-    repetir 20
+    repetir 19
       juntarCinco 
       EnviarMensaje (V, r2) 
       EnviarMensaje (V, r3) 
       RecibirMensaje (ok, r2)
       RecibirMensaje (ok, r3) 
+    juntarCuatro
   fin 
   robot r2 
   variables 
     ok: boolean 
   comenzar 
-    repetir 20
+    repetir 19
       juntarCinco 
       EnviarMensaje (V, r1) 
       EnviarMensaje (V, r3) 
       RecibirMensaje (ok, r1) 
       RecibirMensaje (ok, r3)
+    juntarCuatro
   fin 
   robot r3
   variables
     ok: boolean 
   comenzar 
-    repetir 20
+    repetir 19
       juntarCinco  
       EnviarMensaje (V, r2)
       EnviarMensaje (V, r1)
       RecibirMensaje (ok, r2) 
       RecibirMensaje (ok, r1)
+    juntarCuatro
   fin 
 variables
   r1: r1
@@ -68,7 +73,6 @@ comenzar
 fin
 
 
-{ modularizar, solucionar problema de que se cae de cuadra}
 
 
 b)
