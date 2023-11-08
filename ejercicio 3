@@ -53,7 +53,7 @@ robots
     RecibirMensaje (id, cor)
     repetir 19
       juntarCinco
-      si( id = 2)
+      si( id = 2) {terminar, utilizar UN solo robot, y preguntar quien me toca }
         si(~Tr1) {para el b}
          EnviarMensaje (id, r1)      
         EnviarMensaje (id, r3) 
