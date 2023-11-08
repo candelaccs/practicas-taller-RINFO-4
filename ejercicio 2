@@ -1,6 +1,6 @@
 programa ejercicio2
 procesos
-  proceso juntarPapeles (ES papeles: numero; cantidad: numero)
+  proceso juntarPapeles (ES papeles: numero; E cantidad: numero)
   comenzar
     mientras (HayPapelEnLaEsquina & papeles < cantidad)
       tomarPapel
@@ -8,7 +8,7 @@ procesos
   fin
   proceso dejarPapeles (ES papeles: numero)
   comenzar
-    repetir papeles {o repetir 5?}
+    repetir papeles 
       depositarPapel
   fin
   proceso recorrer (ES papeles: numero; E av: numero; E ca: numero)
@@ -42,6 +42,7 @@ robots
       recorrer (papeles,av,ca)
   fin
   robot consumidor
+  variables
     papeles, cantidad, contador, av, ca: numero
   comenzar
     av:= PosAv
@@ -68,4 +69,15 @@ variables
   robotC2: consumidor
 comenzar
   AsignarArea (robotP1,p1)
-  AsignarArea (robotP2;
+  AsignarArea (robotP1, d)
+  AsignarArea (robotP2, p2)
+  AsignarArea (robotP2, d)
+  AsignarArea (robotC1, c1)
+  AsignarArea (robotC1,d)
+  AsignarArea (robotC2, c2)
+  AsignarArea (robotC2, d)
+  Iniciar (robotP1, 5,1)
+  Iniciar (robotP2, 10,1)
+  Iniciar (robotC1, 11,1)
+  Iniciar (robotC2, 12,1)
+fin
