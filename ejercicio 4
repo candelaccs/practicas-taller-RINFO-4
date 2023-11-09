@@ -28,67 +28,97 @@ procesos
   proceso enviarMensajes (E id: numero; E tarea: numero; E av: numero; E ca: numero)
   comenzar
     si (id = 1)
-      EnviarMensaje (tarea, r1)
-      si (tarea <> 4)
-        EnviarMensaje (av, r1)
-        EnviarMensaje (ca, r1)
+      EnviarMensaje (tarea, t1)
+      EnviarMensaje (av, t1)
+      EnviarMensaje (ca, t1)
     sino
-      EnviarMensaje (tarea, r2)
-      si (Tarea <> 4)
-        EnviarMensaje (av,r2)
-        EnviarMensaje (ca,r2)
+      EnviarMensaje (tarea, t2)
+      EnviarMensaje (av,t2)
+      EnviarMensaje (ca,t2)
   fin
-  proceso enviarFalsos 
+  proceso enviarCuatro
   comenzar
-    EnviarMensaje (F, r1)
-    EnviarMensaje (F, r2)
+    EnviarMensaje (F, t1)
+    EnviarMensaje (F, t2)
   fin
-  proceso queTarea (E tarea: numero
+  proceso queTarea (E tarea: numero; ES seguir: boolean; E avAnt: numero; E caAnt: numero;)
+  variables
+    av, ca: numero
   comenzar
     si (tarea = 1)
       RecibirMensaje (av, jefe)
       RecibirMensaje (ca, jefe)
       BloquearEsquina (av,ca)
-      Pos (av,ca)
+      Pos(av,ca)
       juntarFlores
-      Pos (inicial)
-      LiberarEsquina
+      Pos(avAnt,caAnt) { en el ejer no dice que se vuelve pero sino se queda aca con la esq bloqueada}
+      LiberarEsquina (av,ca)
     sino
       si (tarea = 2)
         RecibirMensaje (av,jefe)
         RecibirMensaje (ca,jefe)
+        BloquearEsquina (av,ca)
+        Pos (av,ca)
         juntarPapeles
+        Pos (avAnt,caAnt)
+        LiberarEsquina (av,ca)
       sino 
         si (tarea = 3)
           RecibirMensaje (av, jefe)
           RecibirMensaje (ca, jefe)
+          BloquearEsquina (av,ca)
+          Pos (av,ca)
           vaciarBolsa
-        sino
-          si (tarea = 4) {esto no va}
+          Pos (avAnt, caAnt)
+          LiberarEsquina (av,ca)
+        sino 
+          si (tarea = 4)
             seguir:= F
   fin
 areas
   areaJ: AreaP (1,1,1,1)
+  areaT1: AreaP (2,1,2,1)
+  areaT2: AreaP (3,1,3,1)
   areaPC: AreaPC (2,2,100,100)
 robots
   robot jefe
   variables
-    id, tarea: numero
+    id, tarea, av,ca: numero
   comenzar
     repetir 10
-      Random (tarea, 1,4) {1,3}
+      Random (tarea, 1,3) {1,3}
       Random (id, 1,2)
       Random (av,2,100)
       Random (ca, 2,100)
-      EnviarMensajes (id, tarea, av, ca)
-    EnviarCuatro 
+      enviarMensajes (id, tarea, av, ca)
+      RecibirMensaje (id,*)
+    enviarCuatro 
   fin
   robot trabajador
   variables
-    tarea: numero
+    tarea, av, ca,id: numero
     seguir: boolean
   comenzar
+    seguir:= V
+    av:= PosAv
+    ca:= PosCa
+    RecibirMensaje (id, jefe)
     mientras (seguir)
       RecibirMensaje (tarea, jefe)
-        queTarea (tarea)
-      
+      queTarea (tarea, seguir, av, ca)
+      EnviarMensaje (id, jefe)
+  fin
+variables
+  jefe: jefe
+  t1: trabajador
+  t2: trabajador
+comenzar
+  AsignarArea (jefe, areaJ)
+  AsignarArea (t1, areaPC)
+  AsignarArea (t1, areaT1)
+  AsignarArea (t2, areaPC)
+  AsignarArea (t2, areaT2)
+  Iniciar (jefe, 1,1)
+  Iniciar (t1, 2,1)
+  Iniciar (t2, 3,1)
+fin  
