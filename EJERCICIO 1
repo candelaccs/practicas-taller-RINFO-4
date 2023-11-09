@@ -1,10 +1,12 @@
+siempre se me choca el robot2 con el servidor pero al final de las calles, cuando ya esta por terminar, solo con el 2 pasa
+
 programa ejercicio1practica4  
 procesos  
-  proceso servidorFlores 
-  comenzar 
-    mientras HayFlorEnLaEsquina 
-      tomarFlor 
-  fin 
+  proceso dejarFloresServidor (E flores: numero)
+  comenzar
+    repetir flores
+      depositarFlor
+  fin
   proceso juntarFlores (E flores: numero)  
   comenzar  
     repetir flores {no puedo asegurar que esa esquina no tenia flores antes}  
@@ -12,9 +14,9 @@ procesos
   fin  
   proceso dejandoFlores (E flores: numero)  
   comenzar  
-    mientras (HayFlorEnLaBolsa & PosCa < 100) { en este caso deberia suponer que NO hay flor en la bolsa?}  
-      mover  
+    mientras ((HayFlorEnLaBolsa) & (PosCa < 100))   
       depositarFlor  
+      mover
   fin  
   proceso quienEs (E id: numero; ES flores: numero)  
   comenzar  
@@ -41,6 +43,12 @@ procesos
           RecibirMensaje (av, robot3)  
           RecibirMensaje (ca, robot3)  
   fin  
+  proceso enviarIds
+  comenzar
+    EnviarMensaje (1, robot1)
+    EnviarMensaje (2, robot2)
+    EnviarMensaje (3, robot3)
+  fin
   proceso enviarACK (E id: numero)  
   comenzar  
     si (id = 1)  
@@ -63,78 +71,45 @@ robots
     flores, id, contador, av, ca: numero  
   comenzar   
     contador:=0  
-    {enviariIds} 
+    enviarIds
     mientras (contador < 3)  
       RecibirMensaje(id, *)  
       quienEs(id, flores)  
       si (flores <>0)  
         recibirAvCa (id, av, ca) 
         Pos(av,ca)  
-        dejarFlores (flores)  
+        dejarFloresServidor (flores)  
+        Pos(100,100)
         enviarACK (id) 
       sino  
         contador:= contador+1  
   fin          
-  robot cliente1  
+  robot cliente
   variables  
-    flores, id,av: numero  
+    flores, id,av,ca: numero  
     ok: boolean  
   comenzar  
     av:=PosAv
+    RecibirMensaje (id, servidor)
     mientras (PosCa < 100)  
       Random (flores, 1,4)  
-      EnviarMensaje(1, servidor)  
+      EnviarMensaje(id, servidor)  
       EnviarMensaje(flores,servidor) 
-      EnviarMensaje(PosAv, servidor) 
-      EnviarMensaje(PosCa+1, servidor) 
+      EnviarMensaje(av, servidor) 
+      ca:= PosCa+1
+      EnviarMensaje(ca, servidor) 
       RecibirMensaje(ok, servidor) 
       Pos(PosAv, PosCa+1) 
-      juntarFlores (flores)
-      Pos(PosAv, PosCa) 
+      juntarFlores(flores)
+      Pos(PosAv, PosCa-1) 
       dejandoFlores (flores)
     EnviarMensaje (0, servidor)
   fin  
-  robot cliente2  
-  variables  
-    flores, id: numero  
-    ok: boolean  
-  comenzar 
-    mientras (PosCa < 100) 
-      Random (flores, 1,4) 
-      EnviarMensaje (2, servidor) 
-      EnviarMensaje (flores, servidor) 
-      EnviarMensaje (PosAv, servidor) 
-      EnviarMensaje (PosCa+1, servidor)
-      RecibirMensaje (ok, servidor) 
-      Pos (PosAv, PosCa+1) 
-      juntarFlores (flores)
-      Pos (PosAv, PosCa)
-      dejandoFlores (flores) 
-    EnviarMensaje (0, servidor) 
-  fin 
-  robot cliente3
-  variables 
-    flores, id: numero 
-    ok: boolean 
-  comenzar  
-    mientras (PosCa < 100) 
-      Random (flores, 1,4) 
-      EnviarMensaje (3, servidor) 
-      EnviarMensaje (flores, servidor) 
-      EnviarMensaje (PosAv, servidor) 
-      EnviarMensaje (PosCa+1, servidor) 
-      RecibirMensaje (ok, servidor) 
-      Pos (PosAv, PosCa+1) 
-      juntarFlores (flores)
-      Pos (PosAv, PosCa)
-      dejandoFlores (flores) 
-    EnviarMensaje (0, servidor) 
-  fin 
 variables 
   servidor: servidor 
-  robot1: cliente1
-  robot2: cliente2
-  robot3: cliente3
+  robot1: cliente
+  robot2: cliente
+  robot3: cliente
 comenzar
   AsignarArea (servidor, areaS) 
   AsignarArea (servidor, area1) 
