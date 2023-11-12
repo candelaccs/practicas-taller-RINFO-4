@@ -1,3 +1,5 @@
+{se me quedan parados}
+
 programa ejercicio3 
 procesos 
   proceso juntarPapeles  
@@ -23,6 +25,25 @@ procesos
     EnviarMensaje (2, r2)
     EnviarMensaje (3,r3)
   fin
+  proceso siSoy (E id: numero)
+  comenzar
+    si (id = 1)
+      EnviarMensaje (id, r2) 
+      EnviarMensaje (id, r3) 
+    sino
+      si (id = 2)
+        EnviarMensaje (id, r1) 
+        EnviarMensaje (id, r3) 
+      sino
+        si (id = 3)
+          EnviarMensaje (id, r2)
+          EnviarMensaje (id, r1)
+  fin
+  proceso esperarQuien (E id: numero)
+  comenzar
+    repetir 2
+      RecibirMensaje (id, *)
+  fin
 areas 
   area1: AreaP (1,1,1,100) 
   area2: AreaP (2,1,2,100) 
@@ -33,51 +54,21 @@ robots
   comenzar
     EnviarMensajes
   fin
-  robot r1 
+  robot rob
   variables 
     id: numero
   comenzar 
     RecibirMensaje (id, cor)
     repetir 19
       juntarCinco 
-      EnviarMensaje (id, r2) 
-      EnviarMensaje (id, r3) 
-      RecibirMensaje (id, r2)
-      RecibirMensaje (id, r3) 
-    juntarCuatro
-  fin 
-  robot r2 
-  variables 
-    id: numero
-  comenzar 
-    RecibirMensaje (id, cor)
-    repetir 19
-      juntarCinco
-      si( id = 2) {terminar, utilizar UN solo robot, y preguntar quien me toca }
-        si(~Tr1) {para el b}
-         EnviarMensaje (id, r1)      
-        EnviarMensaje (id, r3) 
-        RecibirMensaje (id, r1) 
-        RecibirMensaje (id, r3)
-    juntarCuatro
-  fin 
-  robot r3
-  variables
-    id: numero
-  comenzar 
-    RecibirMensaje (id, cor)
-    repetir 19
-      juntarCinco  
-      EnviarMensaje (id, r2)
-      EnviarMensaje (id, r1)
-      RecibirMensaje (id, r2) 
-      RecibirMensaje (id, r1)
+      siSoy (id)
+      esperarQuien (id)
     juntarCuatro
   fin 
 variables
-  r1: r1
-  r2: r2
-  r3: r3
+  r1: rob
+  r2: rob
+  r3: rob
   cor: coordinador
 comenzar
   AsignarArea (r1,area1)
@@ -89,9 +80,6 @@ comenzar
   Iniciar (r2,2,1)
   Iniciar (r3,3,1)
 fin
-
- 
-  
 
 
 b)
