@@ -28,10 +28,12 @@ procesos
   proceso enviarMensajes (E id: numero; E tarea: numero; E av: numero; E ca: numero)
   comenzar
     si (id = 1)
+      EnviarMensaje (V, t1)
       EnviarMensaje (tarea, t1)
       EnviarMensaje (av, t1)
       EnviarMensaje (ca, t1)
     sino
+      EnviarMensaje (V, t2)
       EnviarMensaje (tarea, t2)
       EnviarMensaje (av,t2)
       EnviarMensaje (ca,t2)
@@ -41,7 +43,7 @@ procesos
     EnviarMensaje (F, t1)
     EnviarMensaje (F, t2)
   fin
-  proceso queTarea (E tarea: numero; ES seguir: boolean; E avAnt: numero; E caAnt: numero;)
+  proceso queTarea (E tarea: numero; E avAnt: numero; E caAnt: numero;)
   variables
     av, ca: numero
   comenzar
@@ -71,9 +73,11 @@ procesos
           vaciarBolsa
           Pos (avAnt, caAnt)
           LiberarEsquina (av,ca)
-        sino 
-          si (tarea = 4)
-            seguir:= F
+  fin
+  proceso enviarIds
+  comenzar
+    EnviarMensaje (1, t1)
+    EnviarMensaje (2, t2)
   fin
 areas
   areaJ: AreaP (1,1,1,1)
@@ -85,6 +89,7 @@ robots
   variables
     id, tarea, av,ca: numero
   comenzar
+    enviarIds 
     repetir 10
       Random (tarea, 1,3) {1,3}
       Random (id, 1,2)
@@ -103,10 +108,12 @@ robots
     av:= PosAv
     ca:= PosCa
     RecibirMensaje (id, jefe)
+    RecibirMensaje (seguir, jefe)
     mientras (seguir)
       RecibirMensaje (tarea, jefe)
-      queTarea (tarea, seguir, av, ca)
+      queTarea (tarea, av, ca)
       EnviarMensaje (id, jefe)
+      RecibirMensaje (seguir, jefe)
   fin
 variables
   jefe: jefe
